@@ -2,19 +2,24 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
+<meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>@yield('title') | Pengaduan Masyarakat</title>
-  <meta content="" name="description">
-  <meta content="" name="keywords">
+  <title>PRIMA</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
 
   <!-- Favicons -->
   <link href="{{ asset('assets/img/favicon.png') }}" rel="icon">
   <link href="{{ asset('assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
 
-  <!-- Google Fonts -->
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
 
   <!-- Vendor CSS Files -->
   <link href="{{ asset('assets/vendor/animate.css/animate.min.css') }}" rel="stylesheet">
@@ -26,9 +31,18 @@
   <link href="{{ asset('assets/vendor/remixicon/remixicon.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/vendor/swiper/swiper-bundle.min.css') }}" rel="stylesheet">
 
-  <!-- Template Main CSS File -->
+  <!-- Bootstrap core CSS -->
+  <link href="seo/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Main CSS File -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
+  <!-- Additional CSS Files -->
+    <link rel="stylesheet" href="seo/assets/css/fontawesome.css">
+    <link rel="stylesheet" href="seo/assets/css/templatemo-seo-dream.css">
+    <link rel="stylesheet" href="seo/assets/css/animated.css">
+    <link rel="stylesheet" href="seo/assets/css/owl.css">
+    
 </head>
 
 <body>
@@ -48,87 +62,16 @@
       </div>
     </div>
   </div> -->
-   <!-- ======= Header ======= -->
-   <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
-
-      <h1 class="logo me-auto"><a href="/">Pengaduan Masyarakat</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
-      {{-- <nav id="navbar" class="navbar order-last order-lg-0 ">
-        <ul>
-          <li><a class="nav-link scrollto {{ (request()->is('/')) ? 'active' : '' }}" href="/">Home</a></li>
-          <li><a class="nav-link scrollto {{ (request()->is('tentang')) ? 'active' : '' }}" href="{{ url('tentang')}}">Tentang</a></li>
-          <li><a class="nav-link scrollto {{ (request()->is('pengaduan.laporan')) ? 'active' : '' }}" href="{{ route('pengaduan.laporan', 'saya')}}">Pengaduan</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar --> --}}
-
-      @auth('masyarakat')
-        <a href="{{ route('user.logout')}}" class="appointment-btn scrollto">Logout</a>
-      @else
-        <a href="{{ url('login')}}" class="appointment-btn scrollto">Login</a>
-      @endauth
-
-    </div>
-  </header><!-- End Header -->
+  <!-- header section strats -->
+  @include('partials.header')
+    <!-- end header section -->
+  
 
   @yield('content')
 
   <!-- ======= Footer ======= -->
-  <footer id="footer">
-
-    <div class="footer-top">
-      <div class="container">
-        <div class="row justify-content-between">
-
-          <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>PENGADUAN MASYARAKAT</h3>
-            <p>
-              Rahma Aulia Mangundap<br>
-              My Web<br>
-
-            </p>
-          </div>
-
-          {{-- <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="/">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="{{ url('tentang')}}">Tentang</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="{{ url('tentang')}}">Pengaduan</a></li>
-            </ul>
-          </div> --}}
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Kontak</h4>
-            <ul>
-              <p>
-                <strong>Phone:</strong> +62 812-2042-3665<br>
-                <strong>Email:</strong> rahmaauliamangundap31@gmail.com<br>
-              </p>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <div class="container d-md-flex py-4">
-
-    <div class="me-md-auto my-auto text-center text-md-start">
-        <div class="copyright">
-          &copy; Copyright <strong><span><a href="" target="_blank">PRIMA</a></span></strong>. 
-        </div>
-      </div>
-      <div class="social-links text-center text-md-right pt-3 pt-md-0">
-        <a href="https://github.com/rauliaa" class="github"><i class="bx bxl-github"></i></a>
-        <a href="https://www.instagram.com/r.auliaaa_____/" class="instagram"><i class="bx bxl-instagram"></i></a>
-        <a href="https://www.linkedin.com/in/rahma-aulia-mangundap/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
-      </div>
-    </div>
-  </footer><!-- End Footer -->
+  @include('partials.footer')
+  <!-- End Footer -->
 
   <div id="preloader"></div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
@@ -141,6 +84,12 @@
   <script src="{{ asset('assets/vendor/php-email-form/validate.js') }}"></script>
   <script src="{{ asset('assets/vendor/purecounter/purecounter.js') }}"></script>
   <script src="{{ asset('assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
+  <script src="seo/vendor/jquery/jquery.min.js"></script>
+  <script src="seo/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="seo/assets/js/owl-carousel.js"></script>
+  <script src="seo/assets/js/animation.js"></script>
+  <script src="seo/assets/js/imagesloaded.js"></script>
+  <script src="seo/assets/js/custom.js"></script>
 
   <!-- Template Main JS File -->
   <script src="{{ asset('assets/js/main.js') }}"></script>
