@@ -38,11 +38,28 @@
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 
   <!-- Additional CSS Files -->
-    <link rel="stylesheet" href="seo/assets/css/fontawesome.css">
-    <link rel="stylesheet" href="seo/assets/css/templatemo-seo-dream.css">
-    <link rel="stylesheet" href="seo/assets/css/animated.css">
-    <link rel="stylesheet" href="seo/assets/css/owl.css">
-    
+  <link rel="stylesheet" href="seo/assets/css/fontawesome.css">
+  <link rel="stylesheet" href="seo/assets/css/templatemo-seo-dream.css">
+  <link rel="stylesheet" href="seo/assets/css/animated.css">
+  <link rel="stylesheet" href="seo/assets/css/owl.css">
+  <style>
+    footer {
+      padding: 10px 0;
+    }
+
+    footer p {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .sitename {
+      margin: 0 5px;
+    }
+
+    .credits {
+      margin-top: 5px;
+    }
+  </style>
 </head>
 
 <body>

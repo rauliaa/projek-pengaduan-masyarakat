@@ -137,8 +137,7 @@ class UserController extends Controller
 
     public function register()
     {
-        $provinces = Province::all();
-        return view('pages.user.register', compact('provinces'));
+        return view('pages.user.register');
     }
 
     public function register_post(Request $request)
@@ -150,7 +149,6 @@ class UserController extends Controller
             'name' => ['required', 'string'],
             'email' => ['required', 'email', 'string', 'unique:masyarakat'],
             'username' => ['required', 'string', 'regex:/^\S*$/u', 'unique:masyarakat', 'unique:petugas,username'],
-            'jenis_kelamin' => ['required'],
             'password' => ['required', 'min:6'],
             'telp' => ['required', 'regex:/(08)[0-9]/'],
         ]);
@@ -164,7 +162,6 @@ class UserController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'username' => strtolower($data['username']),
-            'jenis_kelamin' => $data['jenis_kelamin'],
             'password' => Hash::make($data['password']),
             'telp' => $data['telp'],
             'alamat' => $data['alamat'],
