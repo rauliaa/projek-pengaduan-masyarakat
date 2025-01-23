@@ -9,25 +9,25 @@
   <title>@yield('title') | Pengaduan Masyarakat</title>
 
   @stack('prepend-style')
-  @include('includes.admin.style')
+  @include('partials.style')
   @stack('addon-style')
 
 </head>
 
 <body>
   <!-- Sidenav -->
-  @include('includes.admin.sidebar')
+  @include('partials.sidebar')
   <!-- Main content -->
   <div class="main-content" id="panel">
     <!-- Topnav -->
-    @include('includes.admin.navbar')
+    @include('partials.navbar')
 
     @yield('content')
 
-    @include('includes.admin.footer')
+    @include('partials.footer')
   </div>
   @stack('prepend-script')
-  @include('includes.admin.script')
+  @include('partials.script')
   @stack('addon-script')
   @include('sweetalert::alert')
 </body>

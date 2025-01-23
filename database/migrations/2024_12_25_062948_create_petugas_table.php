@@ -10,7 +10,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('petugass', function (Blueprint $table) {
+        Schema::create('petugas', function (Blueprint $table) {
             $table->id('id_petugas'); // Primary key
             $table->string('nama_petugas', 35);
             $table->string('username', 25)->unique();
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('petugass');
+        Schema::dropIfExists('petugas');
     }
 };

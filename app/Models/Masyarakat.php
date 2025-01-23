@@ -9,7 +9,7 @@ class Masyarakat extends Authenticatable
 {
     use HasFactory;
 
-    protected $table = 'masyarakats';
+    protected $table = 'masyarakat';
 
     protected $primaryKey = 'nik';
 

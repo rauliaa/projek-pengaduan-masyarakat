@@ -10,7 +10,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tanggapans', function (Blueprint $table) {
+        Schema::create('tanggapan', function (Blueprint $table) {
             $table->id('id_tanggapan');
             $table->unsignedBigInteger('id_pengaduan'); // Foreign key ke tabel pengaduans
             $table->date('tgl_tanggapan');
@@ -19,8 +19,8 @@ return new class extends Migration
             $table->timestamps();
 
             // Tambahkan foreign key
-            $table->foreign('id_pengaduan')->references('id_pengaduan')->on('pengaduans')->onDelete('cascade');
-            $table->foreign('id_petugas')->references('id_petugas')->on('petugass')->onDelete('cascade');
+            $table->foreign('id_pengaduan')->references('id_pengaduan')->on('pengaduan')->onDelete('cascade');
+            $table->foreign('id_petugas')->references('id_petugas')->on('petugas')->onDelete('cascade');
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tanggapans');
+        Schema::dropIfExists('tanggapan');
     }
 };

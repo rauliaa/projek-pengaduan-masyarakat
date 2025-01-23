@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Mail\VerifikasiEmailUntukRegistrasiPengaduanMasyarakat;
@@ -49,92 +49,29 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-
-        $data = $request->all();
-
-        $validate = Validator::make($data, [
-            'username' => ['required'],
-            'password' => ['required']
+        $validate = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required'
         ]);
 
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();
         }
 
-        if (filter_var($request->username, FILTER_VALIDATE_EMAIL)) {
+        $credentials = filter_var($request->username, FILTER_VALIDATE_EMAIL)
+            ? ['email' => $request->username, 'password' => $request->password]
+            : ['username' => $request->username, 'password' => $request->password];
 
-            $email = Masyarakat::where('email', $request->username)->first();
-
-            if (!$email) {
-                return redirect()->back()->with(['pesan' => 'Email tidak terdaftar']);
-            }
-
-            $password = Hash::check($request->password, $email->password);
-
-
-            if (!$password) {
-                return redirect()->back()->with(['pesan' => 'Password tidak sesuai']);
-            }
-
-            if (Auth::guard('masyarakat')->attempt(['email' => $request->username, 'password' => $request->password])) {
-
-                return redirect()->route('pengaduan');
-            } else {
-
-                return redirect()->back()->with(['pesan' => 'Akun tidak terdaftar!']);
-            }
-        } else {
-
-            $masyarakat = Masyarakat::where('username', $request->username)->first();
-
-            $petugas = Petugas::where('username', $request->username)->first();
-
-            if ($masyarakat) {
-                $username = Masyarakat::where('username', $request->username)->first();
-
-                if (!$username) {
-                    return redirect()->back()->with(['pesan' => 'Username tidak terdaftar']);
-                }
-
-                $password = Hash::check($request->password, $username->password);
-
-                if (!$password) {
-                    return redirect()->back()->with(['pesan' => 'Password tidak sesuai']);
-                }
-
-                if (Auth::guard('masyarakat')->attempt(['username' => $request->username, 'password' => $request->password])) {
-
-                    return redirect()->route('pengaduan');
-                } else {
-
-                    return redirect()->back()->with(['pesan' => 'Akun tidak terdaftar!']);
-                }
-            } elseif ($petugas) {
-                $username = Petugas::where('username', $request->username)->first();
-
-                if (!$username) {
-                    return redirect()->back()->with(['pesan' => 'Username tidak terdaftar']);
-                }
-
-                $password = Hash::check($request->password, $username->password);
-
-                if (!$password) {
-                    return redirect()->back()->with(['pesan' => 'Password tidak sesuai']);
-                }
-
-                if (Auth::guard('admin')->attempt(['username' => $request->username, 'password' => $request->password])) {
-
-                    return redirect()->route('dashboard');
-                } else {
-
-                    return redirect()->back()->with(['pesan' => 'Akun tidak terdaftar!']);
-                }
-            } else {
-                return redirect()->back()->with(['pesan' => 'Akun tidak terdaftar!']);
-            }
+        if (Auth::guard('masyarakat')->attempt($credentials)) {
+            return redirect()->route('pengaduan');
         }
-    }
 
+        if (Auth::guard('admin')->attempt($credentials)) {
+            return redirect()->route('dashboard');
+        }
+
+        return redirect()->back()->with(['pesan' => 'Akun tidak terdaftar atau password salah!']);
+    }
     public function register()
     {
         return view('pages.user.register');
@@ -142,38 +79,32 @@ class UserController extends Controller
 
     public function register_post(Request $request)
     {
-        $data = $request->all();
-
-        $validate = Validator::make($data, [
-            'nik' => ['required', 'min:16', 'max:16', 'unique:masyarakat'],
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'string', 'unique:masyarakat'],
-            'username' => ['required', 'string', 'regex:/^\S*$/u', 'unique:masyarakat', 'unique:petugas,username'],
-            'password' => ['required', 'min:6'],
-            'telp' => ['required', 'regex:/(08)[0-9]/'],
+        $validate = Validator::make($request->all(), [
+            'nik'       => 'required|digits:16|unique:masyarakat',
+            'name'      => 'required|string',
+            'email'     => 'required|email|unique:masyarakat',
+            'username'  => 'required|string|alpha_dash|unique:masyarakat|unique:petugas',
+            'password'  => 'required|string|min:6|confirmed',
+            'telp'      => 'required|regex:/^08[0-9]{8,11}$/',
         ]);
-
+    
         if ($validate->fails()) {
             return redirect()->back()->withErrors($validate)->withInput();
         }
-
-        Masyarakat::create([
-            'nik' => $data['nik'],
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'username' => strtolower($data['username']),
-            'password' => Hash::make($data['password']),
-            'telp' => $data['telp'],
-            'alamat' => $data['alamat'],
-            'email_verified_at' => Carbon::now(),
-        ]);
-
-        $masyarakat = Masyarakat::where('email', $data['email'])->first();
-
-        Auth::guard('masyarakat')->login($masyarakat);
-
-        return redirect('/pengaduan');
+    
+        // Pastikan password di-hash sebelum disimpan
+        $masyarakat = new Masyarakat();
+        $masyarakat->nik = $request->nik;
+        $masyarakat->name = $request->name;
+        $masyarakat->email = $request->email;
+        $masyarakat->username = $request->username;
+        $masyarakat->password = Hash::make($request->password); // Pastikan ini berjalan
+        $masyarakat->telp = $request->telp;
+        $masyarakat->save();
+    
+        return redirect()->route('login')->with('success', 'Registrasi berhasil!');
     }
+    
 
     public function logout()
     {
@@ -184,52 +115,33 @@ class UserController extends Controller
 
     public function storePengaduan(Request $request)
     {
+        $data = $request->validate([
+            'judul_laporan'   => 'required|string',
+            'isi_laporan'     => 'required|string',
+            'tgl_kejadian'    => 'required|date',
+            'lokasi_kejadian' => 'required|string',
+        ]);
+
         if (!Auth::guard('masyarakat')->check()) {
-            return redirect()->back()->with(['pengaduan' => 'Login dibutuhkan!', 'type' => 'error']);
-        } elseif (Auth::guard('masyarakat')->user()->email_verified_at == null && Auth::guard('masyarakat')->user()->telp_verified_at == null) {
-            return redirect()->back()->with(['pengaduan' => 'Akun belum diverifikasi!', 'type' => 'error']);
+            return back()->with(['pengaduan' => 'Login dibutuhkan!', 'type' => 'error']);
         }
 
-        $data = $request->all();
-
-        $validate = Validator::make($data, [
-            'judul_laporan' => ['required'],
-            'isi_laporan' => ['required'],
-            'tgl_kejadian' => ['required'],
-            'lokasi_kejadian' => ['required'],
-            // 'id_kategori' => ['required'],
-        ]);
-
-        if ($validate->fails()) {
-            return redirect()->back()->withErrors($validate)->withInput();
+        if (is_null(Auth::guard('masyarakat')->user()->email_verified_at)) {
+            return back()->with(['pengaduan' => 'Akun belum diverifikasi!', 'type' => 'error']);
         }
 
-
-        if ($request->file('foto')) {
+        if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('assets/pengaduan', 'public');
-        }
-
-        date_default_timezone_set('Asia/Bangkok');
-
-        $pengaduan = Pengaduan::create([
-            'tgl_pengaduan' => date('Y-m-d h:i:s'),
-            'nik' => Auth::guard('masyarakat')->user()->nik,
-            'judul_laporan' => $data['judul_laporan'],
-            'isi_laporan' => $data['isi_laporan'],
-            'tgl_kejadian' => $data['tgl_kejadian'],
-            'lokasi_kejadian' => $data['lokasi_kejadian'],
-            // 'id_kategori' => $data['id_kategori'],
-            'foto' => $data['foto'] ?? 'assets/pengaduan/tambakmekar.png',
-            'status' => '0',
-        ]);
-
-        if ($pengaduan) {
-
-            return redirect()->back()->with(['pengaduan' => 'Berhasil terkirim!', 'type' => 'success']);
         } else {
-
-            return redirect()->back()->with(['pengaduan' => 'Gagal terkirim!', 'type' => 'error']);
+            $data['foto'] = 'assets/pengaduan/tambakmekar.png';
         }
+
+        Pengaduan::create([
+            'tgl_pengaduan'   => Carbon::now(),
+            'nik'             => Auth::guard('masyarakat')->user()->nik,
+        ] + $data + ['status' => '0']);
+
+        return back()->with(['pengaduan' => 'Berhasil terkirim!', 'type' => 'success']);
     }
 
     public function laporan($who = '')
@@ -403,8 +315,8 @@ class UserController extends Controller
             'nama' => ['required', 'string'],
             'email' => ['sometimes', 'required', 'email', 'string', Rule::unique('masyarakat')->ignore($nik, 'nik')],
             'username' => ['sometimes', 'required', 'string', 'regex:/^\S*$/u', Rule::unique('masyarakat')->ignore($nik, 'nik'), 'unique:petugas,username'],
-            'jenis_kelamin' => ['required'],
             'telp' => ['required', 'regex:/(08)[0-9]/'],
+            'alamat' => ['required'],
         ]);
 
         if ($validate->fails()) {
@@ -418,7 +330,6 @@ class UserController extends Controller
             'nama' => $data['nama'],
             'email' => $data['email'],
             'username' => strtolower($data['username']),
-            'jenis_kelamin' => $data['jenis_kelamin'],
             'telp' => $data['telp'],
         ]);
         return redirect()->back()->with(['pesan' => 'Profil berhasil diubah!', 'type' => 'success']);
