@@ -22,7 +22,16 @@ class Masyarakat extends Authenticatable
         'email_verified_at',
         'username',
         'jenis_kelamin',
+        'password',
         'telp',
+        'alamat',
+        'rt',
+        'rw',
+        'kode_pos',
+        'province_id',
+        'regency_id',
+        'district_id',
+        'village_id',
     ];
 
 }
