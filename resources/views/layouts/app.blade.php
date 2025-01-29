@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>@yield('title') | Pengaduan Masyarakat</title>
+  <title>@yield('title') | PRIMA</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -28,103 +28,79 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
-
+  <style>
+      header {
+            width: 100%;
+            padding: 0;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            max-width: 100%;
+            margin-bottom: 0;
+        }
+        header .logo h1 {
+            color: #4553E9;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+        header .logo {
+            display: flex;
+            align-items: center;
+        }
+        header .logo img {
+            width: 85px;
+            height: auto;
+        }
+  </style>
 </head>
 
 <body>
-
-  <!-- ======= Top Bar ======= -->
-  <!-- <div id="topbar" class="d-flex align-items-center fixed-top">
-    <div class="container d-flex justify-content-between">
-      <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">contact@example.com</a>
-        <i class="bi bi-phone"></i> +1 5589 55488 55
-      </div>
-      <div class="d-none d-lg-flex social-links align-items-center">
-        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
-      </div>
-    </div>
-  </div> -->
    <!-- ======= Header ======= -->
    <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
+      <div class="container d-flex align-items-center justify-content-between">
+        <div class="logo">
+            <img src="{{ asset('quick/assets/img/logo.png') }}" alt="PRIMA Logo">
+            <a href="{{ url('/') }}" style="text-decoration: none;">
+                <h1>PRIMA</h1>
+            </a>
+        </div>
 
-      <h1 class="logo me-auto"><a href="/">Pengaduan Masyarakat</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        <nav id="navbar" class="navbar order-last order-lg-0">
+          <ul class="d-flex justify-content-end">
+            <li><a class="nav-link scrollto {{ (request()->is('/pengaduan')) ? 'active' : '' }}" href="{{ route('pengaduan')}}">Buat Pengaduan</a></li>
+            <li><a class="nav-link scrollto {{ (request()->is('pengaduan.laporan')) ? 'active' : '' }}" href="{{ route('pengaduan.laporan', 'saya')}}">Pengaduan Saya</a></li>
+          </ul>
+        </nav><!-- .navbar -->
 
-      <nav id="navbar" class="navbar order-last order-lg-0 ">
-        <ul>
-          <li><a class="nav-link scrollto {{ (request()->is('/pengaduan')) ? 'active' : '' }}" href="{{ route('pengaduan')}}">Buat Pengaduan</a></li>
-          {{-- <li><a class="nav-link scrollto {{ (request()->is('tentang')) ? 'active' : '' }}" href="{{ url('tentang')}}">Tentang</a></li> --}}
-          <li><a class="nav-link scrollto {{ (request()->is('pengaduan.laporan')) ? 'active' : '' }}" href="{{ route('pengaduan.laporan', 'saya')}}">Pengaduan Saya</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+        <div class="auth-buttons">
+          @auth('masyarakat')
+            <a href="{{ route('user.logout')}}" class="appointment-btn scrollto">Logout</a>
+          @else
+            <a href="{{ url('login')}}" class="appointment-btn scrollto">Login</a>
+          @endauth
+        </div>
+      </div>
+    </header><!-- End Header -->
 
-      @auth('masyarakat')
-        <a href="{{ route('user.logout')}}" class="appointment-btn scrollto">Logout</a>
-      @else
-        <a href="{{ url('login')}}" class="appointment-btn scrollto">Login</a>
-      @endauth
-
-    </div>
-  </header><!-- End Header -->
 
   @yield('content')
 
   <!-- ======= Footer ======= -->
   <footer id="footer">
 
-    <div class="footer-top">
-      <div class="container">
-        <div class="row justify-content-between">
-
-          <div class="col-lg-3 col-md-6 footer-contact">
-            <h3>Pengaduan Masyarakat</h3>
-            <p>
-              Rahma Aulia Mangundap<br>
-              My Web<br>
-
-            </p>
-          </div>
-
-          {{-- <div class="col-lg-2 col-md-6 footer-links">
-            <h4>Links</h4>
-            <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="/">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="{{ url('tentang')}}">Tentang</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="{{ url('tentang')}}">Pengaduan</a></li>
-            </ul>
-          </div> --}}
-
-          <div class="col-lg-3 col-md-6 footer-links">
-            <h4>Kontak</h4>
-            <ul>
-              <p>
-                <strong>Phone:</strong> +62 812-2042-3665<br>
-                <strong>Email:</strong> rahmaauliamangundap31@gmail.com<br>
-              </p>
-            </ul>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
     <div class="container d-md-flex py-4">
 
       <div class="me-md-auto my-auto text-center text-md-start">
         <div class="copyright">
-          &copy; Copyright <strong><span><a href="" target="_blank">PRIMA</a></span></strong>. 
+          &copy; 2025 <strong><span><a href="" target="_blank">PRIMA</a></span></strong>. Rahma Aulia Mangundap
         </div>
       </div>
       <div class="social-links text-center text-md-right pt-3 pt-md-0">
         <a href="https://github.com/rauliaa" class="github"><i class="bx bxl-github"></i></a>
-        <a href="https://www.instagram.com/r.auliaaa_____/" class="instagram"><i class="bx bxl-instagram"></i></a>
         <a href="https://www.linkedin.com/in/rahma-aulia-mangundap/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
       </div>
     </div>

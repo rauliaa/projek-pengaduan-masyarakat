@@ -6,28 +6,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
   <meta name="author" content="Creative Tim">
-  <title>@yield('title') | Pengaduan Masyarakat</title>
+  <title>@yield('title') | PRIMA</title>
 
   @stack('prepend-style')
-  @include('partials.style')
+  @include('includes.admin.style')
   @stack('addon-style')
 
 </head>
 
 <body>
   <!-- Sidenav -->
-  @include('partials.sidebar')
+  @include('includes.admin.sidebar')
   <!-- Main content -->
   <div class="main-content" id="panel">
     <!-- Topnav -->
-    @include('partials.navbar')
+    @include('includes.admin.navbar')
 
     @yield('content')
 
-    @include('partials.footer')
+    @include('includes.admin.footer')
   </div>
   @stack('prepend-script')
-  @include('partials.script')
+  @include('includes.admin.script')
   @stack('addon-script')
   @include('sweetalert::alert')
 </body>

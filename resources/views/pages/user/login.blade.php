@@ -192,7 +192,14 @@
 </head>
 <body>
     <!-- Header -->
-    @include('partials.headerauth')
+<header>
+    <div class="logo">
+        <img src="{{ asset('quick/assets/img/logo.png') }}" alt="PRIMA Logo">
+        <a href="{{ url('/') }}" style="text-decoration: none;"> <!-- Menghilangkan underline pada link -->
+            <h1>PRIMA</h1>  <!-- Warna biru untuk tulisan PRIMA -->
+        </a>
+    </div>
+</header>
 
     <!-- Login Box -->
     <div class="login-box">
@@ -243,5 +250,8 @@
         </div>
     </div>
 </body>
-    @include('partials.footerauth')
+<footer>
+    <p>&copy; 2025 PRIMA. All rights reserved.</p>
+    <p>Designed by <a href="https://www.linkedin.com/in/rahma-aulia-mangundap/">Rahma Aulia Mangundap</a> </p>
+</footer>
 </html>

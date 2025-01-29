@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
+    <title>Register | Pengaduan Masyarakat</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -20,150 +20,118 @@
             align-items: center;
             flex-direction: column;
         }
-        header {
+        .container {
+            max-width: 500px;
             width: 100%;
-            padding: 0;
+            padding: 30px;
             background-color: white;
-            display: flex;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 10;
-            max-width: 100%;
-            margin-bottom: 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
-        header .logo h1 {
-            color: #4553E9;
-            font-size: 20px;
-            margin-left: 10px;
-        }
-        header .logo {
-            display: flex;
-            align-items: center;
-        }
-        header .logo img {
-            width: 85px;
-            height: auto;
-        }
-        .register-box {
-            width: 100%;
-            max-width: 400px;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            position: relative;
-            overflow: hidden;
-            margin-top: 100px;  /* Space between header and register box */
-            padding-bottom: 60px;  /* Ensure register button is not cut off */
-        }
-        .register-box h3 {
+        .header {
             text-align: center;
-            font-size: 24px;
-            font-weight: 600;
-            color: #4553E9;
             margin-bottom: 30px;
         }
-        .register-box input {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 15px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            font-size: 16px;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-        .register-box input:focus {
-            border-color: #4553E9;
-        }
-        .register-box .btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, #4553E9, #272F83);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 18px;
+        .header h1 {
+            font-size: 24px;
             font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+            color: #333;
         }
-        .register-box .btn:hover {
-            background-color: #272F83;
+        .header p {
+            font-size: 14px;
+            color: #777;
         }
-        .register-box .login {
-            text-align: center;
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+        }
+        .form-control:focus {
+            border-color: #007bff;
+        }
+        .btn-primary {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            border-radius: 4px;
             font-size: 16px;
-            margin-top: 15px;
+            color: white;
+            cursor: pointer;
         }
-        .register-box .login a {
-            color: #4553E9;
-            font-weight: bold;
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+        .footer a {
+            color: #007bff;
             text-decoration: none;
         }
-        footer {
-            background-color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: 40px;
-            width: 100%;
-            position: relative;
-        }
-        footer p {
-            font-size: 12px;
-            color: #888;
+        .footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    
-    @include('partials.headerauth')
-
-    <div class="register-box">
-        <h3>Register</h3>
-        <form action="{{ route('user.register-post') }}" role="form" method="POST">
+    <div class="container">
+        <div class="header">
+            <h1>Register</h1>
+            <p>Silahkan isi form di bawah ini untuk membuat akun baru.</p>
+        </div>
+        <form action="{{ route('user.register-post') }}" method="POST">
             @csrf
             <div class="form-group">
-                <input type="number" value="{{ old('nik') }}" class="form-control @error('nik') is-invalid @enderror" name="nik" id="nik" placeholder="NIK">
+                <input type="number" value="{{ old('nik') }}" class="form-control @error('nik') is-invalid @enderror" name="nik" placeholder="NIK">
                 @error('nik')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
-                <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Nama">
+                <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name="name" placeholder="Nama">
                 @error('name')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
-                <input type="text" value="{{ old('username') }}" class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="Username">
+                <input type="text" value="{{ old('username') }}" class="form-control @error('username') is-invalid @enderror" name="username" placeholder="Username">
                 @error('username')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
-                <input type="number" value="{{ old('telp') }}" class="form-control @error('telp') is-invalid @enderror" name="telp" id="telp" placeholder="No Telpon">
+                <input type="email" value="{{ old('email') }}" class="form-control @error('email') is-invalid @enderror" name="email" placeholder="Email">
+                @error('email')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="number" value="{{ old('telp') }}" class="form-control @error('telp') is-invalid @enderror" name="telp" placeholder="No Telepon">
                 @error('telp')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
             <div class="form-group">
-                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" id="password" placeholder="Password">
+                <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" placeholder="Password">
                 @error('password')
                     <div class="invalid-feedback">{{ $message }}</div>
                 @enderror
             </div>
-            <div class="form-group">
-                <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Confirm Password">
-            </div>
-            <button type="submit" class="btn">Register</button>
+            <button type="submit" class="btn-primary">Buat Akun</button>
         </form>
-        <div class="login">
-            <p>Sudah punya akun? <a href="{{ url('login') }}">Login</a></p>
+        <div class="footer">
+            <p>Sudah punya akun? <a href="{{ url('login') }}">Masuk</a></p>
         </div>
     </div>
 </body>
-    @include('partials.footerauth')
 </html>

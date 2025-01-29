@@ -62,47 +62,6 @@
                             <td>:</td>
                             <td>{{ $masyarakat->telp }}</td>
                         </tr>
-                        <tr>
-                            <th>Alamat</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->alamat }}</td>
-                        </tr>
-                        <tr>
-                            <th>Rt</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->rt }}</td>
-                        </tr>
-                        <tr>
-                            <th>Rw</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->rw }}</td>
-                        </tr>
-                        <tr>
-                            <th>KD Pos</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->kode_pos }}</td>
-                        </tr>
-                        <tr>
-                            <th>ID Provinsi</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->province_id }}</td>
-                        </tr>
-                        <tr>
-                            <th>ID Kota/Kabupaten</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->regency_id }}</td>
-                        </tr>
-                        <tr>
-                            <th>ID Kecamatan</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->district_id }}</td>
-                        </tr>
-                        <tr>
-                            <th>ID Desa</th>
-                            <td>:</td>
-                            <td>{{ $masyarakat->village_id }}</td>
-                        </tr>
-
                     </tbody>
                 </table>
               </div>
